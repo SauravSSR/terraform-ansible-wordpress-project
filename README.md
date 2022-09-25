@@ -1,23 +1,6 @@
-<h1>
-Wordpress setup using Terraform & Ansible
- </h1>
+<h1>Wordpress setup using Terraform & Ansible</h1>
 
- <h2>
- Tools to be used</h2> 
-<h3>Terraform, Ansible, AWS</h3>
- <h3>Change database entries ,regions and other variable in terraform.tfvars file
- And Database password in user.tfvars file </h3>
-<h3>
-
-  This script is only suitable for AWS LINUX 2 so make sure you have correct region and 
-  ami id in that region.
-
-  Make sure you have configured aws CLI in your local machine
-
-  Ansible is installed in your local machine
-  playbook_test.yml is a ansible script for LINUX 2
-
-</h3>
+<h2> Tools to be used</h2> 
   --------------------------------------------------------------------------------
  <h3> Security: </h3>
 <p> EC2 will be launched in public subnet and RDS will be launched in private subnet </p>
