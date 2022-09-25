@@ -35,43 +35,43 @@ Terraform, Ansible, AWS
 <------------------------------------------------------------------------------------------------------------------------>
 
 <h2> STEPS: </h2>
-1) Brief/Introduction on the project
-  - explain in your own words what you are trying to implement
-2) Installation or pre-requisites (steps to install)
-  - AWS account
-  - Setup Ansible
-    - Installation steps
-    - Verify ansible installation
-  - Setup Terraform
-    - Installation steps
-    - Verify terraform installation
-  - Setup Git
-    - Installation steps
-    - Verify git installation
-  - Create a project directory & clone the repo
-3) Steps that needs to be performed & actions performed during these steps
-  - explain things, commands, screenshots, output screenshots, codes
-  A) Create AWS key pair
-    - Create a key pair
-    - Download the keypair & add it to the machine/lab
-    - Change the permission of the pem file
-  B) Create/Download the Ansible playbook/roles to setup wordpress server
-    - variables - configure
-  C) Create the Terraform Configuration file - to create Ubuntu server - automate the Wordpress setup inside this server
-    - Find the VPC ID & AMI - aws rss configuration
-    - Create the configuration file (.tf)
-      - locals - local variables
-      - provider - aws - access_key, secret_key, token, region
-      - resource - aws_security_group - ingress & egress
-      - resource - aws_instance - ami, instance_type, vpc_security_group_ids, key_name, tags
-      - provisioner - remote-exec - connection - check the SSH connectivity - using public_ip
-      - provisioner - local-exec - create inventory file - add the public_ip of instance created to the inventory file
-      - provisioner - local-exec - invoke the ansible-playbook (setup wordpress) - with custom inventory -i - with the instance user -u - specify the private key --private-key
-      - output - print the output of newly created machine - browse this to get the WP page
-  D) Create Ansible configuration to Skip Host Verification (host_key_checking)
-     Da) Save your files to remote repo - git push
-  E) Execute Terraform workflow
-  F) Verify the WP setup - up & running - Browse - instance_ip -> screenshot of the WP page
-  G) Destroy the resources - using terraform
-4) Conclusion
+<p>1) Brief/Introduction on the project</p>
+<p>  - explain in your own words what you are trying to implement</p></p></p>
+<p>2) Installation or pre-requisites (steps to install)</p></p>
+<p>  - AWS account</p>
+<p>  - Setup Ansible</p>
+<p>    - Installation steps</p>
+<p>    - Verify ansible installation</p>
+<p>  - Setup Terraform</p>
+<p>    - Installation steps</p>
+<p>    - Verify terraform installation</p>
+<p>  - Setup Git</p>
+<p>    - Installation steps</p>
+<p>    - Verify git installation</p>
+<p>  - Create a project directory & clone the repo</p>
+<p>3) Steps that needs to be performed & actions performed during these steps</p>
+<p>  - explain things, commands, screenshots, output screenshots, codes</p>
+<p>  A) Create AWS key pair</p>
+<p>    - Create a key pair</p>
+<p>    - Download the keypair & add it to the machine/lab</p>
+<p>    - Change the permission of the pem file</p>
+<p>  B) Create/Download the Ansible playbook/roles to setup wordpress server</p>
+<p>    - variables - configure</p>
+<p>  C) Create the Terraform Configuration file - to create Ubuntu server - automate the Wordpress setup inside this server</p>
+<p>    - Find the VPC ID & AMI - aws rss configuration</p>
+<p>    - Create the configuration file (.tf)</p>
+<p>      - locals - local variables</p>
+<p>      - provider - aws - access_key, secret_key, token, region</p>
+<p>      - resource - aws_security_group - ingress & egress</p>
+<p>      - resource - aws_instance - ami, instance_type, vpc_security_group_ids, key_name, tags</p>
+<p>      - provisioner - remote-exec - connection - check the SSH connectivity - using public_ip</p>
+<p>      - provisioner - local-exec - create inventory file - add the public_ip of instance created to the inventory file</p>
+<p>      - provisioner - local-exec - invoke the ansible-playbook (setup wordpress) - with custom inventory -i - with the instance user -u - specify the private key --private-key</p>
+<p>      - output - print the output of newly created machine - browse this to get the WP page</p>
+<p>  D) Create Ansible configuration to Skip Host Verification (host_key_checking)</p>
+<p>     Da) Save your files to remote repo - git push</p>
+<p>  E) Execute Terraform workflow</p>
+<p>  F) Verify the WP setup - up & running - Browse - instance_ip -> screenshot of the WP page</p>
+<p>  G) Destroy the resources - using terraform</p>
+<p>4) Conclusion</p>
 
