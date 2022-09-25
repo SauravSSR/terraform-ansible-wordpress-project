@@ -1,6 +1,7 @@
 <h1>Wordpress setup using Terraform & Ansible</h1>
 
 <h2> Tools to be used</h2> 
+Terraform, Ansible, AWS
   --------------------------------------------------------------------------------
  <h3> Security: </h3>
 <p> EC2 will be launched in public subnet and RDS will be launched in private subnet </p>
