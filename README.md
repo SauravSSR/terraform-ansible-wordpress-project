@@ -1,10 +1,10 @@
-<h3>
+<h1>
 Wordpress setup using Terraform & Ansible
- </h3>
+ </h1>
 
  <h2>
  Tools to be used</h2> 
-Terraform, Ansible, AWS
+<h3>Terraform, Ansible, AWS</h3>
  <h3>Change database entries ,regions and other variable in terraform.tfvars file
  And Database password in user.tfvars file </h3>
 <h3>
