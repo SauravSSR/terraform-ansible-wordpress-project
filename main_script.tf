@@ -1,24 +1,26 @@
-provider "aws" {
-
-  region                  = var.region
-  shared_credentials_file = var.shared_credentials_file
+locals {
+  ami_id = "ami-08c40ec9ead489470"
+  vpc_id = "vpc-095c92eeb1c510dc5"
+  ssh_user = "ubuntu"
+  key_name = "Demokey"
+  private_key_path = "/home/labsuser/assign/Demokey.pem"
 }
 
+provider "aws" {
+  region     = "us-east-1"
+  access_key = "ASIAU7RKNZHKTFLRMUUZ"
+  secret_key = "1n7FIA25uNl0gXO23SL0VSsddn/Kwl+yeE24dRkf"
+  token = "FwoGZXIvYXdzED4aDCc3JYHssoxIWpvdJCK7AfHif+noWhY0nuXm3aTaiKRnu5tvEM+nlJiw1V6rmPjf+Ao+sDQmS4phry6jHYNE1k0rKRQZNdHg4+1edSv98WlCYCMfkOalZ5Tc21LFJz4+r2nGDj5/babFCN+64IDZhVpnkCWUHbHe8iNF0Vi7ZijdDa/r17ukfS1MFfS1wUuE+l4Tv8tfGTOfu/YdvibUYIhIHcVaOILaN5Aiyuj7imHhf8VSuA9vBAe27F7frh01LC+tsn1YKkw2UHYog5/BmQYyLSlHxNkmHLnXOHRMO0INedLymMWa+K42Owktsg1wDZQAAyCYlxrKONPsv0esoQ=="
+}
 
-# Create VPC
-resource "aws_vpc" "prod-vpc" {
-  cidr_block           = "10.0.0.0/16"
-  enable_dns_support   = "true" #gives you an internal domain name
-  enable_dns_hostnames = "true" #gives you an internal host name
-  enable_classiclink   = "false"
-  instance_tenancy     = "default"
-
-
+resource "aws_security_group" "demoaccess" {
+        name   = "demoaccess"
+        vpc_id = local.vpc_id
 }
 
 # Create Public Subnet for EC2
 resource "aws_subnet" "prod-subnet-public-1" {
-  vpc_id                  = aws_vpc.prod-vpc.id
+  vpc_id                  = local.vpc_id
   cidr_block              = "10.0.1.0/24"
   map_public_ip_on_launch = "true" //it makes this a public subnet
   availability_zone       = var.AZ1
@@ -27,7 +29,7 @@ resource "aws_subnet" "prod-subnet-public-1" {
 
 # Create Private subnet for RDS
 resource "aws_subnet" "prod-subnet-private-1" {
-  vpc_id                  = aws_vpc.prod-vpc.id
+  vpc_id                  = local.vpc_id
   cidr_block              = "10.0.2.0/24"
   map_public_ip_on_launch = "false" //it makes private subnet
   availability_zone       = var.AZ2
@@ -36,7 +38,7 @@ resource "aws_subnet" "prod-subnet-private-1" {
 
 # Create second Private subnet for RDS
 resource "aws_subnet" "prod-subnet-private-2" {
-  vpc_id                  = aws_vpc.prod-vpc.id
+  vpc_id                  = local.vpc_id
   cidr_block              = "10.0.3.0/24"
   map_public_ip_on_launch = "false" //it makes private subnet
   availability_zone       = var.AZ3
@@ -47,13 +49,13 @@ resource "aws_subnet" "prod-subnet-private-2" {
 
 # Create IGW for internet connection 
 resource "aws_internet_gateway" "prod-igw" {
-  vpc_id = aws_vpc.prod-vpc.id
+  vpc_id = local.vpc_id
 
 }
 
 # Creating Route table 
 resource "aws_route_table" "prod-public-crt" {
-  vpc_id = aws_vpc.prod-vpc.id
+  vpc_id = local.vpc_id
 
   route {
     //associated subnet can reach everywhere
@@ -117,7 +119,7 @@ resource "aws_security_group" "ec2_allow_rule" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  vpc_id = aws_vpc.prod-vpc.id
+  vpc_id = local.vpc_id
   tags = {
     Name = "allow ssh,http,https"
   }
@@ -126,7 +128,7 @@ resource "aws_security_group" "ec2_allow_rule" {
 
 # Security group for RDS
 resource "aws_security_group" "RDS_allow_rule" {
-  vpc_id = aws_vpc.prod-vpc.id
+  vpc_id = local.vpc_id
   ingress {
     from_port       = 3306
     to_port         = 3306
@@ -158,7 +160,7 @@ resource "aws_db_instance" "wordpressdb" {
   engine_version         = "5.7"
   instance_class         = var.instance_class
   db_subnet_group_name   = aws_db_subnet_group.RDS_subnet_grp.id
-  vpc_security_group_ids = ["${aws_security_group.RDS_allow_rule.id}"]
+  vpc_security_group_ids = [aws_security_group.demoaccess.id]
   name                   = var.database_name
   username               = var.database_user
   password               = var.database_password
@@ -253,6 +255,3 @@ resource "null_resource" "Wordpress_Installation_Waiting" {
 }
 
 }
-
-
-
