@@ -1,7 +1,18 @@
+<h3>
+Wordpress setup using Terraform & Ansible
+ </h3>
+
+ <h2>
+ Tools to be used</h2> 
+Terraform, Ansible, AWS
+ <h3>Change database entries ,regions and other variable in terraform.tfvars file
+ And Database password in user.tfvars file </h3>
+<h3>
 
   This script is only suitable for AWS LINUX 2 so make sure you have correct region and 
   ami id in that region.
 
+  Make sure you have configured aws CLI in your local machine
 
   Ansible is installed in your local machine
   playbook_test.yml is a ansible script for LINUX 2
@@ -24,21 +35,43 @@
 <------------------------------------------------------------------------------------------------------------------------>
 
 <h2> STEPS: </h2>
-
- <p>Clone this repo using command <code>  git clone https://github.com/devbhusal/terraform-ansible-wordpress.git</code></p>
- <p> Go to project folder         <code>  cd terraform-ansible-wordpress </code></p>
- <p>Initialize terraform          <code>  terraform init</code></p>
- <p>Change database and aws setting in terraform.tfvars file </p>
- <p>Generate Key pair using        <code> ssh-keygen -f mykey-pair  </code></p>
- <p>View Plan using                <code> terraform plan -var-file="user.tfvars"  </code></p>
- <p>Apply the plan using           <code> terraform apply -var-file="user.tfvars" </code></p>
- 
- <p> After successfull provisioning of AWS Resources,Using remote-exec and private key, EC2 instance will be connected via  SSH. Yum will be updated and Python will be installed so that local ansible server can communicate with the provisoned EC2 . Once Installation is done ,Using local exec , Ansible playbook will be run against provisioned EC2 </p>
- <h3> everything is Automatic. This will provision all needed  aws resources and also build and start webserver using Ansible </h3>
-
- <p>Destroy the resources          <code> terraform destroy -var-file="user.tfvars" </code></p>
-
-
-
-
+1) Brief/Introduction on the project
+  - explain in your own words what you are trying to implement
+2) Installation or pre-requisites (steps to install)
+  - AWS account
+  - Setup Ansible
+    - Installation steps
+    - Verify ansible installation
+  - Setup Terraform
+    - Installation steps
+    - Verify terraform installation
+  - Setup Git
+    - Installation steps
+    - Verify git installation
+  - Create a project directory & clone the repo
+3) Steps that needs to be performed & actions performed during these steps
+  - explain things, commands, screenshots, output screenshots, codes
+  A) Create AWS key pair
+    - Create a key pair
+    - Download the keypair & add it to the machine/lab
+    - Change the permission of the pem file
+  B) Create/Download the Ansible playbook/roles to setup wordpress server
+    - variables - configure
+  C) Create the Terraform Configuration file - to create Ubuntu server - automate the Wordpress setup inside this server
+    - Find the VPC ID & AMI - aws rss configuration
+    - Create the configuration file (.tf)
+      - locals - local variables
+      - provider - aws - access_key, secret_key, token, region
+      - resource - aws_security_group - ingress & egress
+      - resource - aws_instance - ami, instance_type, vpc_security_group_ids, key_name, tags
+      - provisioner - remote-exec - connection - check the SSH connectivity - using public_ip
+      - provisioner - local-exec - create inventory file - add the public_ip of instance created to the inventory file
+      - provisioner - local-exec - invoke the ansible-playbook (setup wordpress) - with custom inventory -i - with the instance user -u - specify the private key --private-key
+      - output - print the output of newly created machine - browse this to get the WP page
+  D) Create Ansible configuration to Skip Host Verification (host_key_checking)
+     Da) Save your files to remote repo - git push
+  E) Execute Terraform workflow
+  F) Verify the WP setup - up & running - Browse - instance_ip -> screenshot of the WP page
+  G) Destroy the resources - using terraform
+4) Conclusion
 
