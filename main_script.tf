@@ -3,7 +3,7 @@ locals {
   vpc_id = "vpc-095c92eeb1c510dc5"
   ssh_user = "ubuntu"
   key_name = "Demokey"
-  private_key_path = "/home/labsuser/assign/Demokey.pem"
+  private_key_path = "/home/labsuser/terraform-ansible-wordpress-project/Demokey.pem"
 }
 
 provider "aws" {
